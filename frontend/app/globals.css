@@ -1,0 +1,169 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+:root {
+  --background: #fafafa;
+  --foreground: #18181b;
+}
+
+* {
+  box-sizing: border-box;
+  letter-spacing: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family:
+    "Segoe UI",
+    "Microsoft YaHei",
+    "PingFang SC",
+    Arial,
+    sans-serif;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+a:focus-visible,
+summary:focus-visible {
+  outline: 2px solid #f97316;
+  outline-offset: 2px;
+}
+
+@layer components {
+  .icon-button {
+    @apply inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-950 disabled:cursor-not-allowed disabled:opacity-40;
+  }
+
+  .icon-button-dark {
+    @apply inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-white disabled:cursor-not-allowed disabled:opacity-40;
+  }
+
+  .primary-button {
+    @apply inline-flex h-9 items-center justify-center gap-2 rounded-md bg-orange-600 px-3 text-sm font-medium text-white transition-colors hover:bg-orange-700 disabled:cursor-not-allowed disabled:bg-zinc-300;
+  }
+
+  .secondary-button {
+    @apply inline-flex h-9 items-center justify-center gap-2 rounded-md border border-zinc-300 bg-white px-3 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50 disabled:cursor-not-allowed disabled:opacity-40;
+  }
+
+  .control-input {
+    @apply rounded-md border border-zinc-300 bg-white px-3 text-zinc-900 outline-none transition-colors placeholder:text-zinc-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-100;
+  }
+
+}
+
+.markdown-content > *:first-child {
+  margin-top: 0;
+}
+
+.markdown-content > *:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-content p,
+.markdown-content ul,
+.markdown-content ol,
+.markdown-content blockquote,
+.markdown-content pre,
+.markdown-content table {
+  margin: 0.65rem 0;
+}
+
+.markdown-content ul,
+.markdown-content ol {
+  padding-left: 1.25rem;
+}
+
+.markdown-content ul {
+  list-style: disc;
+}
+
+.markdown-content ol {
+  list-style: decimal;
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3 {
+  margin: 1rem 0 0.4rem;
+  font-weight: 650;
+  color: #18181b;
+}
+
+.markdown-content h1 {
+  font-size: 1.2rem;
+}
+
+.markdown-content h2 {
+  font-size: 1.05rem;
+}
+
+.markdown-content h3 {
+  font-size: 0.95rem;
+}
+
+.markdown-content code {
+  border-radius: 4px;
+  background: #f4f4f5;
+  padding: 0.1rem 0.3rem;
+  font-family: Consolas, monospace;
+  font-size: 0.85em;
+}
+
+.markdown-content pre {
+  overflow-x: auto;
+  border-radius: 6px;
+  background: #18181b;
+  padding: 0.8rem;
+  color: #fafafa;
+}
+
+.markdown-content pre code {
+  background: transparent;
+  padding: 0;
+  color: inherit;
+}
+
+.markdown-content table {
+  min-width: 520px;
+  border-collapse: collapse;
+}
+
+.markdown-content th,
+.markdown-content td {
+  border: 1px solid #d4d4d8;
+  padding: 0.45rem 0.6rem;
+  text-align: left;
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background-clip: padding-box;
+  background-color: #a1a1aa;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
