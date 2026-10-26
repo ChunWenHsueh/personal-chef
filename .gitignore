@@ -10,3 +10,14 @@ wheels/
 .venv
 
 .env
+
+# Local application data
+.langgraph_api/
+*.db
+*.db-*
+.DS_Store
+
+# Generated frontend assets and caches
+app/static/
+frontend/.npm-cache/
+frontend/.tooling/
