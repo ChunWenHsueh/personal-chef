@@ -1,11 +1,22 @@
 from dotenv import load_dotenv
 from langchain.agents import create_agent
-from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
+from langchain_core.messages import (
+    HumanMessage,
+    AIMessageChunk,
+)
 import sqlite3
 from langgraph.checkpoint.sqlite import SqliteSaver
 from langchain_tavily import TavilySearch
+from app.common.logger import logger
 
 load_dotenv()
+
+conntection = sqlite3.connect("./app/db/personal_chief.db", check_same_thread=False)
+
+checkpointer = SqliteSaver(conntection)
+
+checkpointer.setup()  # auto create tables in SQLite
+
 
 web_search = TavilySearch(max_results=5, topic="general")
 
@@ -27,7 +38,33 @@ agent = create_agent(
     model="deepseek-flash",
     system_prompt=system_prompt,
     tools=[web_search],
+    checkpointer=checkpointer,
 )
 
 # LangGraph will automatically handle the state management and checkpointing for the agent.
 # it also handles the Restful API for the agent.
+
+
+async def search_recipes(prompt: str, image_url: str, thread_id: str):
+    logger.info("Searching recipes: thread_id=%s, has_image=%s", thread_id, bool(image_url))
+    try:
+        if not image_url or image_url.strip() == "":
+            message = HumanMessage(content=prompt)
+        else:
+            message = HumanMessage(
+                content=[
+                    {"type": "text", "text": prompt},
+                    {"type": "image", "url": image_url},
+                ]
+            )
+
+        for chunk, metadata in agent.stream(
+            {"messages": [message]},
+            {"configurable": {"thread_id": thread_id}},
+            stream_mode="messages",
+        ):
+            if isinstance(chunk, AIMessageChunk) and chunk.content:
+                yield chunk.content
+    except Exception as e:
+        logger.error(f"Error: {e}")
+        yield "Error occurred while searching recipes. Try typing the ingredients."
